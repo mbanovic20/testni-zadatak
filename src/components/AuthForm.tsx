@@ -23,7 +23,7 @@ const AuthForm = ({ isLogin }: { isLogin: boolean }) => {
         await AsyncStorage.setItem('email', user.email);
         await AsyncStorage.setItem('firstName', user.firstName);
         await AsyncStorage.setItem('lastName', user.lastName);
-        navigation.navigate('Home');
+        navigation.navigate('Profile');
       } else {
         const registerData = await registerUser(email, firstName, lastName, password);
         const { token, user } = registerData;
@@ -31,7 +31,7 @@ const AuthForm = ({ isLogin }: { isLogin: boolean }) => {
         await AsyncStorage.setItem('email', user.email);
         await AsyncStorage.setItem('firstName', user.firstName);
         await AsyncStorage.setItem('lastName', user.lastName);
-        navigation.navigate('Home');
+        navigation.navigate('Profile');
       }
     } catch (err: unknown) {
       if (err instanceof Error) {

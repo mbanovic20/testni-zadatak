@@ -25,6 +25,7 @@ const ProfileScreen = () => {
     AsyncStorage.removeItem('firstName');
     AsyncStorage.removeItem('lastName');
     setIsAuthenticated(false);
+    setUserEmail(null);
   };
 
   if (isAuthenticated) {
