@@ -2,7 +2,6 @@ import api from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-// Funkcija za registraciju
 export const registerUser = async (email: string, firstName: string, lastName: string, password: string) => {
   try {
     const response = await api.post('/auth/register', {
@@ -14,7 +13,6 @@ export const registerUser = async (email: string, firstName: string, lastName: s
 
     const { token, user } = response.data;
 
-    // Pohranjivanje tokena i korisničkih podataka u AsyncStorage
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('email', user.email);
     await AsyncStorage.setItem('firstName', user.firstName);
@@ -23,7 +21,7 @@ export const registerUser = async (email: string, firstName: string, lastName: s
     return { token, user };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.log((error as any).response.data);  // Dodatni log za prikaz greške
+      console.log((error as any).response.data);
     } else {
       console.log(error);
     }
@@ -32,14 +30,12 @@ export const registerUser = async (email: string, firstName: string, lastName: s
   }
 };
 
-// Funkcija za login
 export const loginUser = async (email: string, password: string) => {
   try {
     const response = await api.post('/auth/login', { email, password });
 
     const { token, user } = response.data;
 
-    // Pohranjivanje tokena i korisničkih podataka u AsyncStorage
     await AsyncStorage.setItem('token', token);
     await AsyncStorage.setItem('email', user.email);
     await AsyncStorage.setItem('firstName', user.firstName);
@@ -48,7 +44,7 @@ export const loginUser = async (email: string, password: string) => {
     return { token, user };
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      console.log(error.response.data);  // Dodatni log za prikaz greške
+      console.log(error.response.data);
       throw new Error('Login failed: ' + (error.response.data?.message || error.message));
     } else {
       console.log(error);

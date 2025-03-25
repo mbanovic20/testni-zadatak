@@ -1,54 +1,48 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Text, View } from 'react-native';
+import { TextInput, Button, Text, View, TouchableOpacity } from 'react-native';
 import { registerUser, loginUser } from '../services/authService';
-import { useNavigation } from '@react-navigation/native';
-import { NavigationProp } from '@react-navigation/native';
-import { RootTabParamList } from '../navigation/BottomTabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AuthForm = ({ isLogin, onLogin }: { isLogin: boolean, onLogin: () => void }) => {
+type Props = {
+  isLogin: boolean;
+  toggleLogin: () => void;
+  onLoginSuccess: () => void;
+};
+
+const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [error, setError] = useState('');
-  const navigation = useNavigation<NavigationProp<RootTabParamList>>();
 
   const handleSubmit = async () => {
     try {
       if (isLogin) {
-        const loginData = await loginUser(email, password);
-        const { token, user } = loginData;
-
-        // Spremamo podatke u AsyncStorage
-        await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('email', user.email);
-        await AsyncStorage.setItem('firstName', user.firstName);
-        await AsyncStorage.setItem('lastName', user.lastName);
-
-        onLogin();
-
-        navigation.navigate('Profile');
+        const { token, user } = await loginUser(email, password);
+        await AsyncStorage.multiSet([
+          ['token', token],
+          ['email', user.email],
+          ['firstName', user.firstName],
+          ['lastName', user.lastName],
+        ]);
       } else {
-        const registerData = await registerUser(email, firstName, lastName, password);
-        const { token, user } = registerData;
-
-        // Spremamo podatke u AsyncStorage
-        await AsyncStorage.setItem('token', token);
-        await AsyncStorage.setItem('email', user.email);
-        await AsyncStorage.setItem('firstName', user.firstName);
-        await AsyncStorage.setItem('lastName', user.lastName);
-
-        // Pozivamo callback funkciju onLogin koja pokreće provjeru prijave u ProfileScreen
-        onLogin();  // Pozivamo provjeru prijave
-
-        navigation.navigate('Profile');
+        const { token, user } = await registerUser(email, firstName, lastName, password);
+        await AsyncStorage.multiSet([
+          ['token', token],
+          ['email', user.email],
+          ['firstName', user.firstName],
+          ['lastName', user.lastName],
+        ]);
       }
+
+      // kad je sve prošlo → pozovi roditelja da provjeri autentikaciju
+      onLoginSuccess();
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unknown error occurred.');
+        setError('Došlo je do greške.');
       }
     }
   };
@@ -61,10 +55,19 @@ const AuthForm = ({ isLogin, onLogin }: { isLogin: boolean, onLogin: () => void 
           <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} />
         </>
       )}
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
-      <TextInput placeholder="Password" secureTextEntry value={password} onChangeText={setPassword} />
-      {error && <Text>{error}</Text>}
+
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
+      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+
+      {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+
       <Button title={isLogin ? 'Login' : 'Register'} onPress={handleSubmit} />
+
+      <TouchableOpacity onPress={toggleLogin}>
+        <Text style={{ color: 'blue', marginTop: 10, textAlign: 'center' }}>
+          {isLogin ? "Don't have an account? Register now" : 'Already have an account? Login'}
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
