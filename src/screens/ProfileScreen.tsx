@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AuthForm from '../components/AuthForm';  // Komponenta za login/registraciju
+import AuthForm from '../components/AuthForm';
 
 const ProfileScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,21 +9,22 @@ const ProfileScreen = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    AsyncStorage.getItem('token').then((token) => {
-      setIsAuthenticated(!!token);
+    const checkAuthentication = async () => {
+      const token = await AsyncStorage.getItem('token');
       if (token) {
-        AsyncStorage.getItem('email').then((email) => {
-          setUserEmail(email);
-        });
+        setIsAuthenticated(true); 
+        const email = await AsyncStorage.getItem('email');
+        setUserEmail(email);
       }
-    });
+    };
+    checkAuthentication();
   }, []);
 
-  const handleLogout = () => {
-    AsyncStorage.removeItem('token');
-    AsyncStorage.removeItem('email');
-    AsyncStorage.removeItem('firstName');
-    AsyncStorage.removeItem('lastName');
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('email');
+    await AsyncStorage.removeItem('firstName');
+    await AsyncStorage.removeItem('lastName');
     setIsAuthenticated(false);
     setUserEmail(null);
   };
