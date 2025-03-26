@@ -14,6 +14,9 @@ const BottomTabs = () => {
         tabBarStyle: { backgroundColor: '#1E1E1E' },
         tabBarActiveTintColor: '#FFD700',
         tabBarInactiveTintColor: '#A9A9A9',
+        headerStyle: { backgroundColor: '#1E1E1E' },
+        headerTintColor: '#FFD700',
+        headerTitleAlign: 'center',
         tabBarIcon: ({ color, size }) => {
           let iconName: keyof typeof Ionicons.glyphMap;
 

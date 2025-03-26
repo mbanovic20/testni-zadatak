@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Text, View, TouchableOpacity } from 'react-native';
+import { TextInput, Text, View, TouchableOpacity } from 'react-native';
 import { registerUser, loginUser } from '../services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -36,7 +36,6 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
         ]);
       }
 
-      // kad je sve prošlo → pozovi roditelja da provjeri autentikaciju
       onLoginSuccess();
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -48,23 +47,65 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
   };
 
   return (
-    <View>
+    <View className="p-6 bg-black shadow-md w-full h-full justify-center">
       {!isLogin && (
         <>
-          <TextInput placeholder="First Name" value={firstName} onChangeText={setFirstName} />
-          <TextInput placeholder="Last Name" value={lastName} onChangeText={setLastName} />
+          <TextInput 
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+            className="mb-4 p-4 border border-gray-300 rounded-lg text-white placeholder-white"
+            placeholderTextColor="#A9A9A9"
+          />
+          <TextInput
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+            className="mb-4 p-4 border border-gray-300 rounded-lg text-white placeholder-white"
+            placeholderTextColor="#A9A9A9"
+          />
         </>
       )}
 
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
-      <TextInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        className="mb-4 p-4 border border-gray-300 rounded-lg text-white placeholder-white"
+        placeholderTextColor="#A9A9A9"
+      />
 
-      {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        className="mb-4 p-4 border border-gray-300 rounded-lg text-white placeholder-white"
+        placeholderTextColor="#A9A9A9"
+      />
 
-      <Button title={isLogin ? 'Login' : 'Register'} onPress={handleSubmit} />
+      {error ? <Text className="text-red-500 text-sm mb-4">{error}</Text> : null}
 
-      <TouchableOpacity onPress={toggleLogin}>
-        <Text style={{ color: 'blue', marginTop: 10, textAlign: 'center' }}>
+      <TouchableOpacity 
+        onPress={handleSubmit}
+        className="mb-4 p-4 bg-yellow-500 rounded-full"
+        style={{
+          backgroundColor: '#FFD700',
+          paddingVertical: 12,
+          paddingHorizontal: 30,
+          borderRadius: 25,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text className="color-white font-bold text-lg">
+          {isLogin ? 'Login' : 'Register'}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={toggleLogin} className="mt-4">
+        <Text className="text-center color-white">
           {isLogin ? "Don't have an account? Register now" : 'Already have an account? Login'}
         </Text>
       </TouchableOpacity>
