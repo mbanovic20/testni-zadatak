@@ -104,6 +104,23 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
         </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity 
+        onPress={handleSubmit}
+        className="mb-4 p-4 bg-yellow-500 rounded-full"
+        style={{
+          backgroundColor: '#FFD700',
+          paddingVertical: 12,
+          paddingHorizontal: 30,
+          borderRadius: 25,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Text className="color-white font-bold text-lg">
+          Login with 
+        </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity onPress={toggleLogin} className="mt-4">
         <Text className="text-center color-white">
           {isLogin ? "Don't have an account? Register now" : 'Already have an account? Login'}
