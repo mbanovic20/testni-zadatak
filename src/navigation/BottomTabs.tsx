@@ -4,12 +4,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 
-export type RootTabParamList = {
-  Home: undefined;
-  Profile: undefined;
-};
-
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
   return (

@@ -25,7 +25,7 @@ export const registerUser = async (email: string, firstName: string, lastName: s
     } else {
       console.log(error);
     }
-    const errorMessage = axios.isAxiosError(error) && error.response ? (error as any).response.data?.message : (error as any).message;
+    const errorMessage = axios.isAxiosError(error) && error.response ? (error as any).response.data?.error : (error as any).message;
     throw new Error('Registration failed: ' + errorMessage);
   }
 };
@@ -45,7 +45,7 @@ export const loginUser = async (email: string, password: string) => {
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       console.log(error.response.data);
-      throw new Error('Login failed: ' + (error.response.data?.message || error.message));
+      throw new Error('Login failed: ' + (error.response.data?.error || error.message));
     } else {
       console.log(error);
       throw new Error('Login failed: ' + (error as Error).message);
