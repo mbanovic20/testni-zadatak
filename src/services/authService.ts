@@ -2,53 +2,52 @@ import api from './api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
+const storeUserData = async (token: string, user: { email: string; firstName: string; lastName: string }) => {
+  try {
+    await AsyncStorage.multiSet([
+      ['token', token],
+      ['email', user.email],
+      ['firstName', user.firstName],
+      ['lastName', user.lastName],
+    ]);
+  } catch (error) {
+    console.error('Error storing user data:', error);
+    throw new Error('Failed to store user data.');
+  }
+};
+
+const handleApiError = (error: unknown, defaultMessage: string) => {
+  if (axios.isAxiosError(error) && error.response) {
+    console.error('API Error:', error.response.data);
+    throw new Error(error.response.data?.error || defaultMessage);
+  } else {
+    console.error('Unexpected Error:', error);
+    throw new Error(defaultMessage);
+  }
+};
+
 export const registerUser = async (email: string, firstName: string, lastName: string, password: string) => {
   try {
-    const response = await api.post('/auth/register', {
-      email,
-      firstName,
-      lastName,
-      password,
-    });
-
+    const response = await api.post('/auth/register', { email, firstName, lastName, password });
     const { token, user } = response.data;
 
-    await AsyncStorage.setItem('token', token);
-    await AsyncStorage.setItem('email', user.email);
-    await AsyncStorage.setItem('firstName', user.firstName);
-    await AsyncStorage.setItem('lastName', user.lastName);
+    await storeUserData(token, user);
 
     return { token, user };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.log((error as any).response.data);
-    } else {
-      console.log(error);
-    }
-    const errorMessage = axios.isAxiosError(error) && error.response ? (error as any).response.data?.error : (error as any).message;
-    throw new Error('Registration failed: ' + errorMessage);
+    handleApiError(error, 'Registration failed.');
   }
 };
 
 export const loginUser = async (email: string, password: string) => {
   try {
     const response = await api.post('/auth/login', { email, password });
-
     const { token, user } = response.data;
 
-    await AsyncStorage.setItem('token', token);
-    await AsyncStorage.setItem('email', user.email);
-    await AsyncStorage.setItem('firstName', user.firstName);
-    await AsyncStorage.setItem('lastName', user.lastName);
+    await storeUserData(token, user);
 
     return { token, user };
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      console.log(error.response.data);
-      throw new Error('Login failed: ' + (error.response.data?.error || error.message));
-    } else {
-      console.log(error);
-      throw new Error('Login failed: ' + (error as Error).message);
-    }
+    handleApiError(error, 'Login failed.');
   }
 };

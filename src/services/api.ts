@@ -9,14 +9,21 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(
-  (config) => {
-    const token = AsyncStorage.getItem('token');
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+  async (config) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.error('Error retrieving token from AsyncStorage:', error);
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    console.error('Error in request interceptor:', error);
+    return Promise.reject(error);
+  }
 );
 
 export default api;
