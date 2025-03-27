@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextInput, Text, View, TouchableOpacity } from 'react-native';
 import { registerUser, loginUser } from '../services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GoogleLogin from './GoogleLogin'; // Import GoogleLogin
 
 type Props = {
   isLogin: boolean;
@@ -104,22 +105,8 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-        onPress={handleSubmit}
-        className="mb-4 p-4 bg-yellow-500 rounded-full"
-        style={{
-          backgroundColor: '#FFD700',
-          paddingVertical: 12,
-          paddingHorizontal: 30,
-          borderRadius: 25,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Text className="color-white font-bold text-lg">
-          Login with 
-        </Text>
-      </TouchableOpacity>
+      {/* Google login button */}
+      <GoogleLogin onLoginSuccess={onLoginSuccess} />
 
       <TouchableOpacity onPress={toggleLogin} className="mt-4">
         <Text className="text-center color-white">

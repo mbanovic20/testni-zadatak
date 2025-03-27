@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Alert } from 'react-native';
+import { TouchableOpacity, Text, Alert } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { auth } from '../../firebase';
 import { GoogleAuthProvider, signInWithCredential, UserCredential, User } from 'firebase/auth'; // Firebase GoogleAuthProvider
@@ -24,8 +24,8 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
       signInWithCredential(auth, credential)
         .then((userCredential: UserCredential) => {
           const user = userCredential.user;
-          setUser(user);  // Pohranite korisničke podatke
-          onLoginSuccess(user);  // Pozovite onLoginSuccess
+          setUser(user);
+          onLoginSuccess(user);
         })
         .catch((error) => {
           console.error('Firebase login error:', error);
@@ -46,13 +46,55 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
 
   return (
     <React.Fragment>
-      <Button
-        title={user ? `Welcome ${user.displayName}` : 'Login with Google'}
-        onPress={handleGoogleLogin}
-        disabled={!request}
-      />
-      {user && <Button title="Logout" onPress={() => auth.signOut()} />}
-    </React.Fragment>
+  <TouchableOpacity
+    onPress={handleGoogleLogin}
+    disabled={!request}
+    style={{
+      backgroundColor: '#FFD700',
+      paddingVertical: 12,
+      paddingHorizontal: 30,
+      borderRadius: 25,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginBottom: 16,  // Equivalent to "mb-4"
+    }}
+  >
+    <Text
+      style={{
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 18,
+      }}
+    >
+      {user ? `Welcome ${user.displayName}` : 'Login with Google'}
+    </Text>
+  </TouchableOpacity>
+
+  {user && (
+    <TouchableOpacity
+      onPress={() => auth.signOut()}
+      style={{
+        backgroundColor: '#FFD700',
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        borderRadius: 25,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Text
+        style={{
+          color: 'white',
+          fontWeight: 'bold',
+          fontSize: 18,
+        }}
+      >
+        Logout
+      </Text>
+    </TouchableOpacity>
+  )}
+</React.Fragment>
+
   );
 };
 
