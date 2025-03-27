@@ -25,18 +25,15 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
   const validateForm = () => {
     const { email, password, firstName, lastName } = formData;
 
-    // Validate email format
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailRegex.test(email)) {
       return 'Please enter a valid email address.';
     }
 
-    // Validate password length
     if (password.length < 6) {
       return 'Password must be at least 6 characters long.';
     }
 
-    // Check for empty fields for non-login case
     if (!isLogin && (!firstName || !lastName)) {
       return 'First name and last name are required.';
     }
