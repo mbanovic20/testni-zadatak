@@ -22,7 +22,35 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const validateForm = () => {
+    const { email, password, firstName, lastName } = formData;
+
+    // Validate email format
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailRegex.test(email)) {
+      return 'Please enter a valid email address.';
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return 'Password must be at least 6 characters long.';
+    }
+
+    // Check for empty fields for non-login case
+    if (!isLogin && (!firstName || !lastName)) {
+      return 'First name and last name are required.';
+    }
+
+    return '';
+  };
+
   const handleSubmit = async () => {
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     try {
       const { email, password, firstName, lastName } = formData;
 
@@ -35,7 +63,6 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
       }
 
       const { token, user } = result;
-
       onLoginSuccess();
     } catch (err: unknown) {
       if (err instanceof Error) {
