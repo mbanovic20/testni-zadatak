@@ -35,7 +35,6 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
     }
   }, [response]);
 
-  // Pokrenite Google login
   const handleGoogleLogin = async () => {
     try {
       await promptAsync();
