@@ -1,5 +1,5 @@
-import { initializeApp } from '@react-native-firebase/app';
-import { getAuth } from '@react-native-firebase/auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -11,8 +11,6 @@ const firebaseConfig = {
   appId: "1:679614658344:web:ea7da1c0efc36036a1c21d",
   measurementId: "G-XTJK5WZZ5C"
 };
-
-import '@react-native-firebase/app';
 
 const app = initializeApp(firebaseConfig);
 

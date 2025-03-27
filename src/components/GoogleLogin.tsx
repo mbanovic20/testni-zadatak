@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, Alert } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
 import { auth } from '../../firebase';
-import { GoogleAuthProvider, signInWithCredential, UserCredential, User } from 'firebase/auth'; // Firebase GoogleAuthProvider
+import { GoogleAuthProvider, signInWithCredential, UserCredential, User } from 'firebase/auth';
 
 interface GoogleLoginProps {
   onLoginSuccess: (user: User) => void;
@@ -11,6 +11,7 @@ interface GoogleLoginProps {
 const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: '679614658344-cr5epercm55j7gebl35ddt0ktdj23i0o.apps.googleusercontent.com',
+    redirectUri: 'https://auth.expo.io/@matejbanovic/testni-zadatak'
   });
 
   const [user, setUser] = useState<User | null>(null);
