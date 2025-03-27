@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, Alert } from 'react-native';
 import * as Google from 'expo-auth-session/providers/google';
-import { auth } from '../../firebase';
+import { auth } from '../services/firebase';
 import { GoogleAuthProvider, signInWithCredential, UserCredential, User } from 'firebase/auth';
 
 interface GoogleLoginProps {
@@ -11,7 +11,7 @@ interface GoogleLoginProps {
 const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: '679614658344-cr5epercm55j7gebl35ddt0ktdj23i0o.apps.googleusercontent.com',
-    redirectUri: 'https://auth.expo.io/@matejbanovic/testni-zadatak'
+    redirectUri: 'https://auth.expo.io/@matejbanovic/testni-zadatak',
   });
 
   const [user, setUser] = useState<User | null>(null);
@@ -50,23 +50,9 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
   <TouchableOpacity
     onPress={handleGoogleLogin}
     disabled={!request}
-    style={{
-      backgroundColor: '#FFD700',
-      paddingVertical: 12,
-      paddingHorizontal: 30,
-      borderRadius: 25,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 16,  // Equivalent to "mb-4"
-    }}
+    className="mb-4 p-4 bg-white rounded-full justify-center items-center"
   >
-    <Text
-      style={{
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 18,
-      }}
-    >
+    <Text className='color-black font-bold text-lg'>
       {user ? `Welcome ${user.displayName}` : 'Login with Google'}
     </Text>
   </TouchableOpacity>
@@ -83,13 +69,7 @@ const GoogleLogin: React.FC<GoogleLoginProps> = ({ onLoginSuccess }) => {
         justifyContent: 'center',
       }}
     >
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: 18,
-        }}
-      >
+      <Text className='color-white font-bold text-lg'>
         Logout
       </Text>
     </TouchableOpacity>

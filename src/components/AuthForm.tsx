@@ -90,22 +90,13 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
 
       <TouchableOpacity 
         onPress={handleSubmit}
-        className="mb-4 p-4 bg-yellow-500 rounded-full"
-        style={{
-          backgroundColor: '#FFD700',
-          paddingVertical: 12,
-          paddingHorizontal: 30,
-          borderRadius: 25,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+        className="mb-4 p-4 bg-gold rounded-full justify-center items-center"
       >
         <Text className="color-white font-bold text-lg">
           {isLogin ? 'Login' : 'Register'}
         </Text>
       </TouchableOpacity>
 
-      {/* Google login button */}
       <GoogleLogin onLoginSuccess={onLoginSuccess} />
 
       <TouchableOpacity onPress={toggleLogin} className="mt-4">
