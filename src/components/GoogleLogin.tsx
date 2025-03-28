@@ -83,7 +83,7 @@ const GoogleLogin = ({ onLoginSuccess }: Props) => {
             justifyContent: 'center',
           }}
         >
-          <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>Logout</Text>
+          <Text className='color-black font-bold text-lg'>Logout</Text>
         </TouchableOpacity>
       )}
     </React.Fragment>
