@@ -4,7 +4,15 @@
     "strict": true,
     "types": [
       "nativewind/types"
-    ]
+    ],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "jsx": "react-native"
   },
   "include": [
     "src",

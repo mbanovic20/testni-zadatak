@@ -59,7 +59,6 @@ const AuthForm = ({ isLogin, toggleLogin, onLoginSuccess }: Props) => {
         throw new Error('Failed to authenticate. Please try again.');
       }
 
-      const { token, user } = result;
       onLoginSuccess();
     } catch (err: unknown) {
       if (err instanceof Error) {
