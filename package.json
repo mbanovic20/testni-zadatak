@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "pripremi": "npm install && npx expo install expo-router react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons @react-native-async-storage/async-storage"
+    "pripremi": "npm install && npx expo install expo-router react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons @react-native-async-storage/async-storage firebase expo-auth-session @react-native-firebase/app @react-native-firebase/auth axios tailwindcss nativewind"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -16,7 +16,7 @@
     "axios": "^1.8.4",
     "babel-preset-expo": "^12.0.9",
     "expo": "^52.0.40",
-    "expo-auth-session": "~6.0.3",
+    "expo-auth-session": "^6.0.3",
     "expo-router": "~4.0.19",
     "expo-status-bar": "~2.0.1",
     "firebase": "^11.5.0",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/core": "^7.26.10",
     "@types/react": "~18.3.12",
+    "expo-module-scripts": "^4.0.4",
     "typescript": "^5.3.3"
   },
   "private": true
