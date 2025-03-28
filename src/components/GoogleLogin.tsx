@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, Alert } from 'react-native';
-import * as Google from 'expo-auth-session';
+import * as Google from 'expo-auth-session/providers/google';
 import { signInWithGoogle } from '../services/authService';
 import firebase from 'firebase/compat/app';
 
@@ -9,18 +9,20 @@ type Props = {
 };
 
 const GoogleLogin = ({ onLoginSuccess }: Props) => {
+  /*
   const discovery = {
     authorizationEndpoint: 'https://accounts.google.com/o/oauth2/v2/auth',
     tokenEndpoint: 'https://oauth2.googleapis.com/token',
     revocationEndpoint: 'https://oauth2.googleapis.com/revoke',
   };
+  */
 
-  const [request, response, promptAsync] = Google.useAuthRequest(
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest(
     {
       clientId: '679614658344-cr5epercm55j7gebl35ddt0ktdj23i0o.apps.googleusercontent.com',
       redirectUri: 'https://auth.expo.io/@mbanovic20/testni-zadatak',
     },
-    discovery
+    //discovery
   );
 
   const [user, setUser] = useState<any>(null);
