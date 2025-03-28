@@ -61,7 +61,7 @@ const GoogleLogin = ({ onLoginSuccess }: Props) => {
           marginBottom: 16,
         }}
       >
-        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18 }}>
+        <Text className='color-black font-bold text-lg'>
           {user ? `Welcome ${user.email}` : 'Login with Google'}
         </Text>
       </TouchableOpacity>
